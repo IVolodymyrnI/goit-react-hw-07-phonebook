@@ -7,21 +7,23 @@ import storage from 'redux-persist/lib/storage';
 
 const contactsSlice = createSlice({
   name: 'contacts',
-  initialState: { db: data },
+  initialState: { value: data },
   reducers: {
     addContact: (state, { payload }) => {
       const isContactExist = checkOnUniqueName({
-        array: state,
+        array: state.value,
         value: payload.name,
       });
       payload.id = nanoid();
 
       isContactExist
         ? alert(`The name ${payload.name} is already exist`)
-        : state.unshift(payload);
+        : state.value.unshift(payload);
     },
     deleteContact: (state, { payload }) => {
-      return state.filter(contact => contact.id !== payload);
+      return {
+        value: state.value.filter(contact => contact.id !== payload.id),
+      };
     },
   },
 });
@@ -38,4 +40,4 @@ export const contactsReducer = persistReducer(
 );
 
 // Selectors
-export const getContacts = state => state.contacts.db;
+export const getContacts = state => state.contacts.value;

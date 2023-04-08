@@ -9,6 +9,7 @@ export function PhoneNumberList() {
   const contacts = useSelector(getContacts);
   const filter = useSelector(getFilterValue);
   const dispatch = useDispatch();
+
   const filteredContacts = contacts.filter(contact =>
     contact.name.toLowerCase().includes(filter.toLowerCase())
   );
@@ -21,7 +22,10 @@ export function PhoneNumberList() {
             <Info>
               {name}: {phoneNumber}
             </Info>
-            <Button type="button" onClick={() => dispatch(deleteContact(id))}>
+            <Button
+              type="button"
+              onClick={() => dispatch(deleteContact({ id }))}
+            >
               delete
             </Button>
           </Item>
