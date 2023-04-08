@@ -7,12 +7,11 @@ import { getFilterValue } from 'redux/filterSlice';
 
 export function PhoneNumberList() {
   const contacts = useSelector(getContacts);
-  console.log(contacts);
   const filter = useSelector(getFilterValue);
+  const dispatch = useDispatch();
   const filteredContacts = contacts.filter(contact =>
     contact.name.toLowerCase().includes(filter.toLowerCase())
   );
-  const dispatch = useDispatch();
 
   return (
     <List>

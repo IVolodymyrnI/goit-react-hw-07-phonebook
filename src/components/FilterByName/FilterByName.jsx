@@ -7,7 +7,8 @@ import { setFilter } from 'redux/filterSlice';
 export function FilterByName() {
   const dispatch = useDispatch();
   const filter = useSelector(getFilterValue);
-  const onChange = ({ currentTarget: { value } }) => {
+
+	const onChange = ({ currentTarget: { value } }) => {
     dispatch(setFilter(value));
   };
 
