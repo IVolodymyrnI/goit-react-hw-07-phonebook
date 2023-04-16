@@ -1,12 +1,12 @@
 import { Formik, Form } from 'formik';
 import { Label, Input } from 'components/ContactForm/ContactFormStyle';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFilterValue } from 'redux/filterSlice';
 import { setFilter } from 'redux/filterSlice';
+import { selectFilter } from 'redux/selectors';
 
 export function FilterByName() {
   const dispatch = useDispatch();
-  const filter = useSelector(getFilterValue);
+  const filter = useSelector(selectFilter);
 
 	const onChange = ({ currentTarget: { value } }) => {
     dispatch(setFilter(value));

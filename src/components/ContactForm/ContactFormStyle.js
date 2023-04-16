@@ -1,7 +1,6 @@
-import { Form, Field, ErrorMessage } from 'formik';
 import styled from 'styled-components';
 
-export const FormWindow = styled(Form)`
+export const FormWindow = styled.form`
   width: 300px;
   padding: 10px;
   overflow: auto;
@@ -14,7 +13,7 @@ export const InputWrapper = styled.div`
   margin-bottom: 40px;
 `;
 
-export const Error = styled(ErrorMessage)`
+export const Error = styled.p`
   position: absolute;
   top: 24px;
   color: red;
@@ -28,7 +27,7 @@ export const Label = styled.label`
   font-weight: 500;
 `;
 
-export const Input = styled(Field)`
+export const Input = styled.input`
   outline: none;
   border: 1px solid gray;
   display: block;
