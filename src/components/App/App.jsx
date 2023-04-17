@@ -1,5 +1,5 @@
 import { ContactForm } from 'components/ContactForm/ContactForm';
-import { PhoneNumberList } from 'components/PhoneNumberList/PhoneNumberList';
+import { PhoneNumberList } from 'components/PhoneList/PhoneList';
 import { FilterByName } from 'components/FilterByName/FilterByName';
 import { Title, SubTitle, AppStyle } from './AppStyle';
 import { useEffect } from 'react';

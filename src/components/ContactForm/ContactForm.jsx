@@ -1,4 +1,11 @@
 import { useFormik } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-hot-toast';
+import { useEffect } from 'react';
+
+import { schema } from './ContactFormValidation';
+import { addContact } from 'redux/operations';
+import { selectError, selectIsPending } from 'redux/selectors';
 import {
   Input,
   FormWindow,
@@ -7,15 +14,11 @@ import {
   Error,
   InputWrapper,
 } from './ContactFormStyle';
-import { schema } from './ContactFormValidation';
-import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/operations';
-import { selectError } from 'redux/selectors';
-import { toast } from 'react-hot-toast';
-import { useEffect } from 'react';
+
 export const ContactForm = () => {
   const dispatch = useDispatch();
   const error = useSelector(selectError);
+  const isPending = useSelector(selectIsPending);
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -27,6 +30,7 @@ export const ContactForm = () => {
 
       if (response.payload) {
         formik.resetForm();
+        toast.success('The contact is added successfully!');
       }
     },
   });
@@ -63,7 +67,9 @@ export const ContactForm = () => {
           value={formik.values.phoneNumber}
         ></Input>
       </InputWrapper>
-      <Button type="submit">Add contact</Button>
+      <Button type="submit" disabled={isPending}>
+        {isPending ? 'Adding...' : 'Add contact'}
+      </Button>
     </FormWindow>
   );
 };

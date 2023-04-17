@@ -1,4 +1,4 @@
-import { Info, List, Item } from './PhoneNumberListStyle';
+import { Info, List, Item } from './PhoneListStyle';
 import { Button } from 'components/ContactForm/ContactFormStyle';
 import { deleteContact } from 'redux/operations';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,7 +19,11 @@ export function PhoneNumberList() {
               <Info>
                 {name}: {phoneNumber}
               </Info>
-              <Button type="button" onClick={() => dispatch(deleteContact(id))}>
+              <Button
+                type="button"
+                disabled={isPending}
+                onClick={() => dispatch(deleteContact(id))}
+              >
                 delete
               </Button>
             </Item>
