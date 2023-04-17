@@ -1,6 +1,6 @@
-export const checkOnUniqueName = ({ array = [], value }) => {
+export const checkOnUniqueName = ({ array = [], name }) => {
   const arrayOfNames = array.map(contact => contact.name.toLowerCase());
-  const index = arrayOfNames.indexOf(value.toLowerCase());
+  const index = arrayOfNames.indexOf(name.toLowerCase());
 
   return !Boolean(index === -1);
 };

@@ -8,14 +8,16 @@ import {
   InputWrapper,
 } from './ContactFormStyle';
 import { schema } from './ContactFormValidation';
-import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/operations';
-import { selectError } from 'redux/selectors';
+import { useAddContactMutation, useFetchContactsQuery } from 'redux/operations';
 import { toast } from 'react-hot-toast';
 import { useEffect } from 'react';
+import { checkOnUniqueName } from 'utils';
+
 export const ContactForm = () => {
-  const dispatch = useDispatch();
-  const error = useSelector(selectError);
+  const { data } = useFetchContactsQuery();
+  const [addContact, { isError, error, isLoading: isAdding }] =
+    useAddContactMutation();
+
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -23,19 +25,30 @@ export const ContactForm = () => {
     },
     validationSchema: schema,
     onSubmit: async values => {
-      const response = await dispatch(addContact(values));
+      const isContactExist = checkOnUniqueName({
+        array: data,
+        name: values.name,
+      });
 
-      if (response.payload) {
+      if (isContactExist) {
+        return toast.error('The name of the contacted is already exist!');
+      }
+
+      try {
+        await addContact(values);
         formik.resetForm();
+        toast.success('The contact is added successfully!');
+      } catch (err) {
+        toast.error(err);
       }
     },
   });
 
   useEffect(() => {
-    if (error) {
-      toast.error(error.message);
+    if (isError) {
+      toast.error(error);
     }
-  }, [error]);
+  }, [error, isError]);
 
   return (
     <FormWindow onSubmit={formik.handleSubmit}>
@@ -63,7 +76,9 @@ export const ContactForm = () => {
           value={formik.values.phoneNumber}
         ></Input>
       </InputWrapper>
-      <Button type="submit">Add contact</Button>
+      <Button type="submit" disabled={isAdding}>
+        {isAdding ? 'adding...' : 'add contact'}
+      </Button>
     </FormWindow>
   );
 };
