@@ -1,17 +1,28 @@
 import { List } from './PhoneNumberListStyle';
 import { PhoneNumberListItem } from 'components/PhoneListItem/PhoneListItem';
+import { useSelector } from 'react-redux';
 import { useFetchContactsQuery } from 'redux/operations';
+import { selectFilter } from 'redux/selectors';
 
 export function PhoneNumberList() {
-  const { data, isFetching } = useFetchContactsQuery();
-  const showContactList = !isFetching && data;
+  const { data: contacts, isFetching } = useFetchContactsQuery();
+  const filter = useSelector(selectFilter);
+  const showContactList = !isFetching && contacts;
+
+  if (!contacts) {
+    return null;
+  }
+
+  const visiableContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
 
   return (
     <>
       {isFetching && <div>Loading...</div>}
       {showContactList && (
         <List>
-          {data.map(({ id, name, phoneNumber }) => (
+          {visiableContacts.map(({ id, name, phoneNumber }) => (
             <PhoneNumberListItem
               key={id}
               id={id}
