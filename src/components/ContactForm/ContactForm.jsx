@@ -30,7 +30,7 @@ export const ContactForm = () => {
 
       if (response.payload) {
         formik.resetForm();
-        toast.success('The contact is added successfully!');
+        toast.success('The contact has been added successfully!');
       }
     },
   });
