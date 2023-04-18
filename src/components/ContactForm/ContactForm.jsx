@@ -37,7 +37,7 @@ export const ContactForm = () => {
       try {
         await addContact(values);
         formik.resetForm();
-        toast.success('The contact is added successfully!');
+        toast.success('The contact has been added successfully!');
       } catch (err) {
         toast.error(err);
       }
